@@ -45,7 +45,7 @@ export const RegisterUser = (req , res) => {
             });
 
             user.save().then(result => {
-                res.send(`${result} is successfully Added !!!`)
+                res.status(200).send(`${result} is successfully Added !!!`)
             }).catch(error => {
                 res.send(`${error}`)
             })
@@ -84,7 +84,7 @@ export const LoginUser = (req , res) => {
             userName : userName,
             password : password,
         }
-
+        console.log(user)
         UserSchema.find(user).then(result => {
             console.log(result)
             res.status(200).send(result)
