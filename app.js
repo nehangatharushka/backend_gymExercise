@@ -2,6 +2,7 @@ import express from "express"
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import UserRoutes from "./route/UserRoutes.js";
+import FitnessPlanRoutes from "./route/FitnessPlanRoutes.js";
 
 
 const app = express()
@@ -23,6 +24,8 @@ app.use((req, res, next) => {
 });
 
 app.use('/user',UserRoutes)
+
+app.use('/gym',FitnessPlanRoutes)
 
 mongoose.connect("mongodb://localhost:27017/holiday_central").then(result => {
     app.listen(8080);
