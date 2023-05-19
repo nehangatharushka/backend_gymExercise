@@ -14,6 +14,16 @@ const requiredFieldsLogin = [
     "password"
  ]
 
+ const requiredFieldsUpdateInfo = [
+    "userName",
+    "fullName",
+    "email",
+    "height",
+    "weight",
+    "age",
+    "fitnessGoal"
+ ]
+
 export const GetUser = (req,res) => {
     res.send("working")
 }
@@ -119,3 +129,42 @@ try {
   }
 
 } 
+
+export const SaveUserInfo = (req,res) => {
+    const missingFields = requiredFieldsUpdateInfo.filter((field) => !req.body[field]);
+    console.log(missingFields);
+    if (missingFields.length) {
+        res.status(400).send({
+            message: `Missing required fields: ${missingFields.join(", ")}`,
+        });
+        return;
+    }
+    else
+    {
+        const { username } = req.body._id;
+
+        const UserCheck = UserSchema.findOne({ username });
+
+        if (!UserCheck) {
+        return res.status(404).json({ message: 'User not found' });
+        }
+
+
+        const user = {
+            fullName : req.body.fullName ,
+            userName : req.body.userName ,
+            email : req.body.email,
+            height : req.body.height,
+            weight:req.body.weight,
+            age:req.body.age,
+            fitnessGoal:req.body.fitnessGoal,
+        }
+
+        // Save the updated user
+        UserSchema.updateOne(user).then(result => {
+            res.status(200).send(`${result} is successfully Updated !!!`)
+        }).catch(error => {
+            res.send(`${error} not upated`)
+        })
+    }
+}

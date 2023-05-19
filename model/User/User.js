@@ -19,7 +19,19 @@ const UserSchema = new Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    height: {
+        type: String,
+    },
+    weight: {
+        type: String,
+    },
+    age: {
+        type: String,
+    },
+    fitnessGoal: {
+        type: String,
+    },
 });
 
 // Hash the password before saving the user
