@@ -1,4 +1,4 @@
-import FitnessPlan from "../../../model/GYM/FitnessPlan";
+import FitnessPlanSchema from "../../../model/GYM/FitnessPlan.js";
 
 export const FitnessPlanList = (req, res) => {
     const fitnessPlan = {
@@ -9,10 +9,26 @@ export const FitnessPlanList = (req, res) => {
         "seats.cabinClass":  req.body.cabinClass,
     }
 
-    FitnessPlan.find(fitnessPlan).then(result => {
+    FitnessPlanSchema.find(fitnessPlan).then(result => {
         res.status(200).send(result)
     }).catch(err => {
         res.send(err)
+    })
+
+}
+
+
+export const FitnessPlanListInsert = (req, res) => {
+    const fitnessPlan = new FitnessPlanSchema({
+        des : req.body.des,
+        nutrition : req.body.nutrition ,
+        exercise :  req.body.exercise 
+    })
+
+    fitnessPlan.save().then(result => {
+        res.status(200).send(`${result} is successfully added !!!`)
+    }).catch(error => {
+        res.status(500).send(`Error ${error}!!!`)
     })
 
 }

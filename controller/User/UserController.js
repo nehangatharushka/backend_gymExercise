@@ -85,7 +85,7 @@ export const LoginUser = (req , res) => {
             password : password,
         }
         console.log(user)
-        UserSchema.find(user).then(result => {
+        UserSchema.findOne(user).then(result => {
             console.log(result)
             res.status(200).send(result)
         }).catch(error => {
