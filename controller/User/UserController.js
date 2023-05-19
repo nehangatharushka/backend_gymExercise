@@ -1,4 +1,5 @@
 import UserSchema from "../../model/User/User.js";
+import UserFitnessPlanSchema from "../../model/UserFitness/UserFitnessPlan.js";
 import bcrypt from "bcrypt";
 
 const requiredFields = [
@@ -97,3 +98,24 @@ export const LoginUser = (req , res) => {
         res.status(500).send('Internal server error');
       }
 }
+
+export const SaveFitnessPlan = (req , res) => {
+
+try {
+    const userFitness = new UserFitnessPlanSchema({
+        userName : req.body.userName ,
+        type : req.body.type
+    });
+
+    userFitness.save().then(result => {
+        res.status(200).send(`${result} is successfully Added !!!`)
+    }).catch(error => {
+        res.send(`${error}`)
+    })
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal server error');
+  }
+
+} 
