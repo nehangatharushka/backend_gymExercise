@@ -25,7 +25,23 @@ const requiredFieldsLogin = [
  ]
 
 export const GetUser = (req,res) => {
-    res.send("working")
+    try {
+        const { _id } = req.body;
+        const user = {
+            _id : _id,
+        }
+        console.log(user)
+        UserSchema.findOne(user).then(result => {
+            console.log(result)
+            res.status(200).send(result)
+        }).catch(error => {
+            res.status(500).send(`Error ${error}`)
+        })
+
+      } catch (err) {
+        console.error(err);
+        res.status(500).send('Internal server error');
+      }
 }
 
 export const RegisterUser = (req , res) => {
@@ -65,14 +81,14 @@ export const RegisterUser = (req , res) => {
 }
 
 export const LoginUser = (req , res) => {
-    // const missingFields = requiredFieldsLogin.filter((field) => !req.body[field]);
-    // console.log(missingFields);
-    // if (missingFields.length) {
-    //     res.status(400).send({
-    //         message: `Missing required fields: ${missingFields.join(", ")}`,
-    //     });
-    //     return;
-    // }
+    const missingFields = requiredFieldsLogin.filter((field) => !req.body[field]);
+    console.log(missingFields);
+    if (missingFields.length) {
+        res.status(400).send({
+            message: `Missing required fields: ${missingFields.join(", ")}`,
+        });
+        return;
+    }
     // else{
     //         const { userName, password } = req.body;
     //         const user =  UserSchema.find({ userName });
@@ -141,16 +157,12 @@ export const SaveUserInfo = (req,res) => {
     }
     else
     {
-        const { username } = req.body._id;
-
-        const UserCheck = UserSchema.findOne({ username });
-
-        if (!UserCheck) {
-        return res.status(404).json({ message: 'User not found' });
+        const filter = {
+            _id : req.body._id
         }
 
-
         const user = {
+            _id:req.body._id,
             fullName : req.body.fullName ,
             userName : req.body.userName ,
             email : req.body.email,
@@ -161,10 +173,48 @@ export const SaveUserInfo = (req,res) => {
         }
 
         // Save the updated user
-        UserSchema.updateOne(user).then(result => {
-            res.status(200).send(`${result} is successfully Updated !!!`)
+        UserSchema.findByIdAndUpdate(filter,user).then(result => {
+            res.status(200).send(result)
         }).catch(error => {
-            res.send(`${error} not upated`)
+            res.send(`${error} Error !!!`)
+        })
+    }
+}
+
+export const SaveDateTime = (req,res) => {
+
+    const missingFields = requiredFieldsUpdateInfo.filter((field) => !req.body[field]);
+    console.log(missingFields);
+    if (missingFields.length) {
+        res.status(400).send({
+            message: `Missing required fields: ${missingFields.join(", ")}`,
+        });
+        return;
+    }
+    else
+    {
+        const filter = {
+            _id : req.body._id
+        }
+
+        const user = {
+            _id:req.body._id,
+            fullName : req.body.fullName ,
+            userName : req.body.userName ,
+            email : req.body.email,
+            height : req.body.height,
+            weight:req.body.weight,
+            age:req.body.age,
+            fitnessGoal:req.body.fitnessGoal,
+            selectedDate : req.body.days ,
+            time:req.body.time
+        }
+        console.log(user)
+        // Save the updated user
+        UserSchema.findByIdAndUpdate(filter,user).then(result => {
+            res.status(200).send(result)
+        }).catch(error => {
+            res.send(`${error} Error !!!`)
         })
     }
 }

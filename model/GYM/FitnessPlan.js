@@ -7,15 +7,15 @@ const FitnessPlanSchema = new Schema({
         type: String,
         required: true
     },
-    des: {
+    Protein: {
         type: String,
         required: true
     },
-    nutrition: {
+    Carbohydrates: {
         type: String,
         required: true
     },
-    exercise: {
+    Fat: {
         type: String,
         required: true
     }

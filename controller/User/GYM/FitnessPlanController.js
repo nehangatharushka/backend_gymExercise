@@ -20,9 +20,10 @@ export const FitnessPlanList = (req, res) => {
 
 export const FitnessPlanListInsert = (req, res) => {
     const fitnessPlan = new FitnessPlanSchema({
-        des : req.body.des,
-        nutrition : req.body.nutrition ,
-        exercise :  req.body.exercise 
+        Protein : req.body.Protein,
+        Fat : req.body.Fat ,
+        Carbohydrates :  req.body.Carbohydrates ,
+        type : req.body.type ,
     })
 
     fitnessPlan.save().then(result => {
@@ -32,3 +33,26 @@ export const FitnessPlanListInsert = (req, res) => {
     })
 
 }
+
+export const getFitnessPlan = (req, res) => {
+
+    try {
+        const { type } = req.body;
+        const userType = {
+            type : type,
+        }
+
+        FitnessPlanSchema.findOne(userType).then(result => {
+            console.log(result)
+            res.status(200).send(result)
+        }).catch(error => {
+            res.status(500).send(`Error ${error}`)
+        })
+
+      } catch (err) {
+        console.error(err);
+        res.status(500).send('Internal server error');
+      }
+
+}
+

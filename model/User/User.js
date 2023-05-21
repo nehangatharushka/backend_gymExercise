@@ -32,6 +32,11 @@ const UserSchema = new Schema({
     fitnessGoal: {
         type: String,
     },
+    selectedDate: [{ type: String }]
+    ,
+    time:{
+        type: String,
+    }
 });
 
 // Hash the password before saving the user

@@ -3,7 +3,10 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import UserRoutes from "./route/UserRoutes.js";
 import FitnessPlanRoutes from "./route/FitnessPlanRoutes.js";
-
+import UserFitnessRoutes from "./route/UserFitnessRoutes.js";
+import ExerciseListRoutes from "./route/ExerciseListRoutes.js";
+import UserExerciseRoutes from "./route/UserExerciseRoutes.js";
+import CompletedRoutes from "./route/CompletedRoutes.js";
 
 const app = express()
 app.use(bodyParser.urlencoded({extended: false}))
@@ -26,6 +29,14 @@ app.use((req, res, next) => {
 app.use('/user',UserRoutes)
 
 app.use('/gym',FitnessPlanRoutes)
+
+app.use('/userFitnessPlan',UserFitnessRoutes)
+
+app.use('/exercise',ExerciseListRoutes)
+
+app.use('/userExercise',UserExerciseRoutes)
+
+app.use('/completed',CompletedRoutes)
 
 mongoose.connect("mongodb://localhost:27017/holiday_central").then(result => {
     app.listen(8080);
